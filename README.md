@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # code-snippets
 
 ## Project setup
@@ -22,3 +23,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+# code-snippets
+>>>>>>> ace986e37b9565b98aa8524c32835683feebe62b
