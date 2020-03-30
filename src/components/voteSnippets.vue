@@ -1,13 +1,13 @@
 <template>
 <div class="root">
--------------
+    <div class="voteSection">
     <a class="upvote" v-on:click="count += 1">up</a>
     <a class="downvote" v-on:click="count -= 1">down</a>
     <a class="report" v-on:click="reported()" >Report</a>
     <div class="countResult">
     {{count}}
     </div>
------------->
+    </div>
 </div>
 </template>
 
@@ -19,14 +19,7 @@ export default {
             count: 0
         }
     },
-    computed: {
-        
-    }
-   /*  methods: {
-        thumbsUp: () => {
-            this.count += 1;
-        }
-    } */
+    
 }
 
 </script>
@@ -47,6 +40,4 @@ a:hover {
 }
 </style>
 
-  function newFunction() {
-    return "You have reported this snippet"
-  }
+  

@@ -1,9 +1,7 @@
 <template>
-  <div id="app">
-    <UsrMsg /> 
+  <div id="app"> 
     <addSnippets />
     <voteSnippets />
-    <resultsSnipetts />
   </div>
   
 </template>
@@ -11,15 +9,14 @@
 <script>
 import addSnippets from "./components/addSnippets";
 import voteSnippets from "./components/voteSnippets";
-import resultsSnipetts from "./components/resultsSnippets";
+
 export default {
 
   name: 'App',
   components: {
     addSnippets,
-    voteSnippets,
-    resultsSnipetts
-  },
+    voteSnippets
+  }
 }
 
 </script>
