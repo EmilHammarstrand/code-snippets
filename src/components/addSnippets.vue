@@ -24,7 +24,7 @@
         <div class="snippetResult">
             <div class="list">
                 <div class="snippet" v-for="(snippet, i) in addSnippetList" :key="`${i}-${snippet.id}`">
-                    {{snippet}}
+                   <div class="snippetText"> {{snippet}} </div>
                 <button class="deleteButton" @click="deleteSnippet(snippet)">Delete</button>
                 </div>
             </div>
@@ -43,7 +43,6 @@ export default {
         addSnippetList: [],
         nameIsTouched: false,
         codeIsTouched: false,
-        counter: 0,
         show: false
     }),
 
@@ -78,8 +77,7 @@ export default {
             this.$http.post(baseUrl, { add: '',  title: this.alias, content: this.code})
             .then(response => {
                 console.log("axiosData:", response.data);
-                this.addSnippetList.unshift(this.alias + this.code);
-                
+                this.addSnippetList.unshift( "Title:" + this.alias + " " + "Code: " + this.code);
             })
             .catch( error => {
                 console.log("Error.", error)
@@ -155,11 +153,11 @@ export default {
         justify-content: flex-end;
     }
 
-
     .snippet {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
+
 </style>
 
