@@ -1,21 +1,24 @@
 <template>
   <div id="app"> 
     <addSnippets />
-    <voteSnippets />
+    <latestSnippets />
+    <bestSnippets />
   </div>
   
 </template>
 
 <script>
 import addSnippets from "./components/addSnippets";
-import voteSnippets from "./components/voteSnippets";
+import latestSnippets from "./components/latestSnippets";
+import bestSnippets from "./components/bestSnippets";
 
 export default {
 
   name: 'App',
   components: {
     addSnippets,
-    voteSnippets
+    latestSnippets,
+    bestSnippets
   }
 }
 

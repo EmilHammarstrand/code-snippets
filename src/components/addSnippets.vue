@@ -1,57 +1,58 @@
 <template>
 <div class="root">
     <div class="wholeForm">
-    <div class="formGroup">
-        <label>Alias</label>
-            <input type="text" v-model="alias" :class="nameClass" @blur.once="nameIsTouched = true" >
-        <span v-if="nameIsTouched && !nameIsValid" class="error"> {{ nameErrorMessage }} </span>
-    </div>
-
-    <div class="formGroup">
-     <label>Your code snippet</label>
-        <textarea  class="codeInput" type="text" v-model="code" :class="codeClass" @blur.once="codeIsTouched = true"></textarea>
-        <span v-if="!codeIsValid && codeIsTouched" class="error"> {{ codeErrorMessage }} </span>
-    </div>
-
-    <div class="formGroup">
-        <button :disabled="!isCompleted || !nameIsValid" @click=" addSnippetCode(); uploadSnippet(); ">Add snippet</button>
-    </div>
-</div>
-
-<div class="code-snippets">
-   <h2>Code Snippets</h2>
-</div>
-    <div class="snippetResult">
-        
-        <div class="list">
-            <div v-for="snippet in addSnippet" :key="snippet">
-                {{snippet}}
-            </div>
+        <div class="formGroup">
+            <label>Alias</label>
+                <input type="text" v-model="alias" :class="nameClass" @blur.once="nameIsTouched = true" >
+            <span v-if="nameIsTouched && !nameIsValid" class="error"> {{ nameErrorMessage }} </span>
         </div>
 
+        <div class="formGroup">
+        <label>Your code snippet</label>
+            <textarea  class="codeInput" type="text" v-model="code" :class="codeClass" @blur.once="codeIsTouched = true"></textarea>
+            <span v-if="!codeIsValid && codeIsTouched" class="error"> {{ codeErrorMessage }} </span>
+        </div>
+
+        <div class="formGroup">
+            <button :disabled="!isCompleted || !nameIsValid" @click="uploadSnippet(); show = true">Add snippet</button>
+        </div>
     </div>
+
+    <div class="code-snippets">
+        <h2 v-show="show">Your Snippets</h2>
+    </div>
+        <div class="snippetResult">
+            <div class="list">
+                <div class="snippet" v-for="(snippet, i) in addSnippetList" :key="`${i}-${snippet.id}`">
+                    {{snippet}}
+                <button class="deleteButton" @click="deleteSnippet(snippet)">Delete</button>
+                </div>
+            </div>
+        </div>
 </div>
 </template>
 
 <script>
+const baseUrl = "https://www.forverkliga.se/JavaScript/api/api-snippets.php?";
 
 export default {
 
-    
     data: () => ({
         alias: "",
         code: "",
-        addSnippet: [],
+        addSnippetList: [],
         nameIsTouched: false,
-        codeIsTouched: false
-        
+        codeIsTouched: false,
+        counter: 0,
+        show: false
     }),
+
     computed: {
         nameErrorMessage(){
-            return "Please enter at least four characters."
+            return "Please enter at least three characters."
         },
         nameIsValid() {
-            return this.alias.length >= 4;
+            return this.alias.length >= 3;
         },
         nameClass() {
 			if( !this.nameIsTouched ) return '';
@@ -70,24 +71,35 @@ export default {
             if(!this.codeIsTouched) return "";
             return this.codeIsValid ? "valid" : "invalid";
         }
-
-        
     },
+
     methods: {
-        addSnippetCode(){
-            this.addSnippet.push(this.alias + this.code);
-        },
         uploadSnippet() {
-            this.$http.get("https://www.forverkliga.se/JavaScript/api/api-snippets.php?add", { params: {title: "", content: ""} })
+            this.$http.post(baseUrl, { add: '',  title: this.alias, content: this.code})
             .then(response => {
-                this.dataFromApi = response.data;
+                console.log("axiosData:", response.data);
+                this.addSnippetList.unshift(this.alias + this.code);
+                
             })
-            .catch(this.handleError);
-        }
-    },
-    
-}
+            .catch( error => {
+                console.log("Error.", error)
+            })
+        },
 
+        deleteSnippet(addSnippet){
+            this.$http.post(baseUrl, {delete: '', id: this.alias+this.code})
+            .then(response => {
+                console.log("axiosData:", response.data);
+                this.addSnippetList = this.addSnippetList.filter(
+                snippet => snippet != addSnippet
+            );
+            })
+            .catch( error => {
+                console.log("Error.", error)
+            })       
+        }
+    }
+}
 </script>
 
 <style>
@@ -139,5 +151,15 @@ export default {
         display: inline-block;
     }
 
+    .deleteButton{
+        justify-content: flex-end;
+    }
+
+
+    .snippet {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 </style>
 
