@@ -40,7 +40,7 @@ export default {
                     uploaddt: response.data.upload_dt
                 }
                 response.data.some((snippet, index) => {
-                    this.latestSnippetsList.unshift(snippet.title + snippet.content + snippet.upload_dt)
+                    this.latestSnippetsList.unshift( "Title:" + snippet.title + " Content:" + snippet.content + " Date:" + snippet.upload_dt)
                         return index >= 6 })
 			})
 			.catch(error => {

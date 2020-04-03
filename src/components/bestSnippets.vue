@@ -40,7 +40,7 @@ export default {
                     score: response.data.score
                 }
                 response.data.some((bestSnippet, index) => {
-                    this.bestSnippetsList.push(bestSnippet.title + bestSnippet.content + bestSnippet.score)
+                    this.bestSnippetsList.push(" Title:" + bestSnippet.title + " Content:" + bestSnippet.content + " Votes:" + bestSnippet.score)
                         return index >= 6
                 })
 			})
